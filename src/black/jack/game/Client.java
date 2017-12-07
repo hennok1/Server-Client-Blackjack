@@ -54,10 +54,10 @@ public class Client{
                     hand.add(c);
                     if(c.rank.equals("Ace")){
                         System.out.print("Should Aces be 1 or 11?: ");
-                        int value=scan.nextInt();
-                        hand.get(handIndex).setValue(value);
+                        hand.get(handIndex).setValue(scan.nextInt());
                     }
                     System.out.println(c.ToString());
+                    handIndex++;
                 }
                 
                 /**
@@ -66,9 +66,11 @@ public class Client{
                 */
                 if(cmd.matches("stay")){
                     outToServer.writeObject(cmd);
+                    outToServer.reset();
                     outToServer.writeObject(hand);
                     int sum = (int)inFromServer.readObject();
                     System.out.println("Total Value: " + sum);
+                    sum=0;
                     hand.clear();
                 }
                 
@@ -76,8 +78,8 @@ public class Client{
                 * Will display the users hand with all the cards received from the server
                 */
                 if(cmd.matches("hand")){
-                    System.out.println("Cards in hand:");
                     System.out.println("------------------");
+                    System.out.println("Cards in hand:");
                     for (Card hand1 : hand) {
                         System.out.println(hand1.ToString());
                     }
@@ -91,7 +93,7 @@ public class Client{
                     break;
                 }
                 
-                handIndex++;
+                outToServer.flush();
             }
         }
         catch(IOException | ClassNotFoundException e){

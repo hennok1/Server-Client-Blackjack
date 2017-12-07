@@ -96,8 +96,7 @@ public class ClientGUI extends JFrame{
                     Card c=(Card) inFromServer.readObject();
                     hand.add(c);
                     if(c.rank.equals("Ace")){
-                        int value = Integer.parseInt(JOptionPane.showInputDialog("Should Aces be 1 or 11?:"));
-                        hand.get(handIndex).setValue(value);
+                        hand.get(handIndex).setValue(Integer.parseInt(JOptionPane.showInputDialog("Should Aces be 1 or 11?:")));
                     }
                     textfield2.setText(c.ToString());
                     System.out.println(c.ToString());
@@ -137,6 +136,7 @@ public class ClientGUI extends JFrame{
     public void actionPerformed(ActionEvent e){
             try{
                 outToServer.writeObject("stay");
+                outToServer.reset();
                 outToServer.writeObject(hand);
                 int sum =(int)inFromServer.readObject();
                 System.out.println("Total Value: " + sum);

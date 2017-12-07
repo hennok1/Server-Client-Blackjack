@@ -29,7 +29,8 @@ public class Server {
             List<Card> hand =new ArrayList<>();
             int sum=0;
             
-            ServerSocket socket = new ServerSocket(40090);
+            ServerSocket socket;
+            socket = new ServerSocket(40090);
             Socket sock = socket.accept( );
             System.out.println("Connection Recived From Client!");
             
@@ -58,15 +59,15 @@ public class Server {
                  * of the hand.
                  */
                 if(cmd.matches("stay")){
-                    System.out.println("Reciving hand from Client");
                     hand = (List<Card>)inFromClient.readObject();
+                    System.out.println("Reciving hand from Client");
                     for (int i =0; i < hand.size();i++) {
                         sum = sum + hand.get(i).getValue();
                     }
                     System.out.println("Total Value: "+sum);
                     outToClient.writeObject(sum);
-                    sum=0;
                     hand.clear();
+                    sum=0;
                 }
                 
                 if(Deck.index==52){
